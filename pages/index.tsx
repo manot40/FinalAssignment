@@ -12,14 +12,14 @@ import {
 
 export default function Home() {
   return (
-    <div className={styles.container}>
+    <div style={{overflowX: 'auto'}} className={styles.container}>
       <Container
-        as="main"
+        as="div"
         display="flex"
         direction="column"
         justify="center"
         alignItems="center"
-        style={{ height: "93vh" }}
+        style={{ height: "100vh" }}
       >
         <Spacer />
         <Avatar
@@ -57,11 +57,11 @@ export default function Home() {
         <Link color underline href="#">
           Lupa password?
         </Link>
-      </Container>
-      <Container as="div" display="flex" direction="column" alignItems="center">
+        <Spacer y={3.5} />
         <Link color="#333" underline href="#">
           Tidak memiliki akun? Registrasi
         </Link>
+        <Spacer />
       </Container>
     </div>
   );
