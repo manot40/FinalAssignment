@@ -53,15 +53,6 @@ export default function Home() {
             Login
           </Button>
         </form>
-        <Spacer y={1.5} />
-        <Link color underline href="#">
-          Lupa password?
-        </Link>
-        <Spacer y={5} />
-        <Link color="#333" underline href="#">
-          Tidak memiliki akun? Registrasi
-        </Link>
-        <Spacer />
       </Container>
     </div>
   );
