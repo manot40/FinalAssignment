@@ -19,7 +19,7 @@ export default function Home() {
         direction="column"
         justify="center"
         alignItems="center"
-        style={{ height: "100vh", minHeight: 100 + '%' }}
+        style={{ height: "100vh" }}
       >
         <Spacer />
         <Avatar
@@ -29,7 +29,7 @@ export default function Home() {
           color="gradient"
           bordered
         />
-        <Spacer y={2.5} />
+        <Spacer y={2} />
         <form>
           <Input
             width="16rem"
