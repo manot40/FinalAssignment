@@ -53,6 +53,10 @@ export default function Home() {
             Login
           </Button>
         </form>
+        <Spacer y={1.5} />
+        <Link color underline href="#">
+          Lupa password?
+        </Link>
       </Container>
     </div>
   );
