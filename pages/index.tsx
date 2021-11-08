@@ -12,7 +12,7 @@ import {
 
 export default function Home() {
   return (
-    <div style={{overflowX: 'auto'}} className={styles.container}>
+    <div className={styles.container}>
       <Container
         as="div"
         display="flex"
@@ -25,7 +25,7 @@ export default function Home() {
         <Avatar
           src="/default.jpg"
           alt="User Profile"
-          size={150}
+          size={120}
           color="gradient"
           bordered
         />
@@ -52,16 +52,16 @@ export default function Home() {
           <Button shadow color="gradient" size="large">
             Login
           </Button>
-          <Spacer y={1.5} />
-          <Link color underline href="#">
-            Lupa password?
-          </Link>
-          <Spacer y={5} />
-          <Link color="#333" underline href="#">
-            Tidak memiliki akun? Registrasi
-          </Link>
-          <Spacer />
         </form>
+        <Spacer y={1.5} />
+        <Link color underline href="#">
+          Lupa password?
+        </Link>
+        <Spacer y={3.5} />
+        <Link color="#333" underline href="#">
+          Tidak memiliki akun? Registrasi
+        </Link>
+        <Spacer />
       </Container>
     </div>
   );
