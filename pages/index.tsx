@@ -19,7 +19,7 @@ export default function Home() {
         direction="column"
         justify="center"
         alignItems="center"
-        style={{ height: "100vh" }}
+        style={{ height: "100vh", minHeight: 100 + '%' }}
       >
         <Spacer />
         <Avatar
@@ -57,7 +57,7 @@ export default function Home() {
         <Link color underline href="#">
           Lupa password?
         </Link>
-        <Spacer y={3.5} />
+        <Spacer y={5} />
         <Link color="#333" underline href="#">
           Tidak memiliki akun? Registrasi
         </Link>
