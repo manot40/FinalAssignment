@@ -21,7 +21,6 @@ export default function Home() {
         alignItems="center"
         style={{ height: "100vh" }}
       >
-        <Spacer />
         <Avatar
           src="/default.jpg"
           alt="User Profile"
