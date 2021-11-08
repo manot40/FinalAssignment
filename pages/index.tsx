@@ -31,7 +31,7 @@ export default function Home() {
         <Spacer y={2} />
         <form>
           <Input
-            width="16rem"
+            width="18rem"
             size="large"
             label="Username"
             placeholder="Masukan Username"
@@ -39,23 +39,28 @@ export default function Home() {
           />
           <Spacer />
           <Input.Password
-            width="16rem"
+            width="18rem"
             size="large"
             label="Password"
             placeholder="Masukan Password"
             clearable
           />
           <Spacer />
-          <Checkbox size="small" label="Ingat saya" checked />
+          <Container
+           as="div"
+           display="flex"
+           direction="row"
+           justify="space-between">
+             <Checkbox size="small" label="Ingat saya" checked />
+             <Link color underline href="#">
+               Lupa password?
+             </Link>
+          </Container>
           <Spacer y={2} />
           <Button shadow color="gradient" size="large">
             Login
           </Button>
         </form>
-        <Spacer y={1.5} />
-        <Link color underline href="#">
-          Lupa password?
-        </Link>
       </Container>
     </div>
   );
