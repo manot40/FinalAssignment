@@ -57,7 +57,7 @@ export default function Home() {
              </Link>
           </Container>
           <Spacer y={2} />
-          <Button shadow color="gradient" size="large">
+          <Button shadow color="gradient" style={{ width: 18 + 'rem' }}>
             Login
           </Button>
         </form>
