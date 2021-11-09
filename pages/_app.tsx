@@ -7,7 +7,7 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>NextUI | Create Next App</title>
+        <title>Tugas Akhir | Kevin Sandiho</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <CssBaseline />
