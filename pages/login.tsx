@@ -45,12 +45,15 @@ export default function Login() {
   function handleFormSubmit(e: FormEvent) {
     e.preventDefault();
     setIsLoading(true);
-    if (password === "" || email === "" || !pwStrong || isError || badEmail)
+    if (password === "" || email === "" || !pwStrong || isError || badEmail) {
       toast.error("Periksa kembali email/password anda"), setIsLoading(false);
-    else {
+      onError();
+    } else {
       supabase.auth.signIn({ email, password }).then(({ user, error }) => {
-        if (error) onError();
-        else {
+        if (error) {
+          toast.error("Login Gagal. Username/Password Salah");
+          onError();
+        } else {
           toast.success("Login Successful");
           console.log(user);
         }
@@ -59,7 +62,6 @@ export default function Login() {
     }
   }
   function onError() {
-    toast.error("Login Gagal. Username/Password Salah");
     setIsError(true);
     setTimeout(() => {
       setIsError(false);
