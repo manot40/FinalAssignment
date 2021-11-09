@@ -17,10 +17,14 @@ export default function Welcome() {
       <Text h1 className={styles.title}>
         Tugas Final&nbsp;
         <Link
-          color
-          href="https://nextjs.org"
+          href="https://reactjs.org"
           target="_blank"
           rel="noopener noreferrer"
+          style={{
+            background: "linear-gradient(111.19deg,#aaffec -63.59%,#ff4ecd -20.3%,#0070f3 70.46%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+          }}
         >
           React JS
         </Link>
@@ -38,12 +42,13 @@ export default function Welcome() {
         display="flex"
         direction="column"
         alignItems="center"
-        justify="center"  
+        justify="center"
       >
         <Button
           icon={<PersonIcon size={16} />}
+          color="gradient"
           onClick={() => router.push("/login")}
-          style={{marginBottom: ".66rem"}}
+          style={{ marginBottom: ".66rem" }}
         >
           Login
         </Button>

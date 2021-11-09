@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Welcome from "../components/Welcome";
 import styles from "../styles/Home.module.css";
-import ResetPassword from "../components/ResetPassword";
+import ResetPassword from "../components/Modal/ResetPassword";
 import { hashDecode } from "../utils";
 
 export default function Home() {
@@ -12,7 +12,7 @@ export default function Home() {
   useEffect(() => {
     // @ts-ignore
     const { type, access_token } = hashDecode(window);
-    if (type === "recovery") {
+    if (access_token && type === "recovery") {
       setIsRecovery(true);
       setToken(access_token);
     }

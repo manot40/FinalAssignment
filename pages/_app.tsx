@@ -1,7 +1,9 @@
 import Head from "next/head";
-import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { CssBaseline } from "@nextui-org/react";
+import "../styles/globals.css";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 function App({ Component, pageProps }: AppProps) {
   return (
@@ -12,6 +14,7 @@ function App({ Component, pageProps }: AppProps) {
       </Head>
       <CssBaseline />
       <Component {...pageProps} />
+      <ToastContainer autoClose={2000} position="top-center" closeOnClick />
     </>
   );
 }

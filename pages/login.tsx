@@ -8,11 +8,13 @@ import {
   Link,
 } from "@nextui-org/react";
 import { MailIcon, LockIcon } from "@primer/octicons-react";
-import ForgotPassword from "../components/ForgotPassword";
+import { isEmailValid, isPasswordStrong } from "../utils";
+import ForgotPassword from "../components/Modal/ForgotPassword";
+import RegisterUser from "../components/Modal/RegisterUser";
 import { useState, useEffect, FormEvent } from "react";
 import styles from "../styles/Home.module.css";
 import supabase from "../utils/supabase";
-import { isPasswordStrong } from "../utils";
+import { toast } from "react-toastify";
 
 export default function Login() {
   // Form Input
@@ -20,40 +22,48 @@ export default function Login() {
   const [password, setPassword] = useState("");
   // Form State
   const [isError, setIsError] = useState(false);
+  const [badEmail, setBadEmail] = useState(false);
   const [pwStrong, setPwStrong] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   // Modal State
   const [isForgot, setIsForgot] = useState(false);
   const [isRegister, setIsRegister] = useState(false);
 
-  useEffect(() => {
-    return () => {
-      setIsLoading(false);
-    };
-  }, []);
+  // Password Validation
   useEffect(() => {
     const isStrong = isPasswordStrong(password);
     if (password !== "") isStrong ? setPwStrong(true) : setPwStrong(false);
     else setPwStrong(true);
   }, [password]);
+  // Email Validation
+  useEffect(() => {
+    const isMailValid = isEmailValid(email);
+    if (email !== "") !isMailValid ? setBadEmail(true) : setBadEmail(false);
+    else setBadEmail(false);
+  }, [email]);
 
   function handleFormSubmit(e: FormEvent) {
     e.preventDefault();
-    supabase.auth
-      .signIn({ email, password })
-      .then(({ user, session, error }) => {
+    setIsLoading(true);
+    if (password === "" || email === "" || !pwStrong || isError || badEmail)
+      toast.error("Periksa kembali email/password anda"), setIsLoading(false);
+    else {
+      supabase.auth.signIn({ email, password }).then(({ user, error }) => {
         if (error) onError();
         else {
+          toast.success("Login Successful");
           console.log(user);
-          console.log(session);
         }
+        setIsLoading(false);
       });
+    }
   }
   function onError() {
+    toast.error("Login Gagal. Username/Password Salah");
     setIsError(true);
     setTimeout(() => {
       setIsError(false);
-    }, 1500);
+    }, 2000);
   }
 
   return (
@@ -73,12 +83,15 @@ export default function Login() {
           bordered
         />
         <Spacer y={2} />
-        <form onSubmit={(e) => handleFormSubmit(e)}>
+        <form>
           <Input
             type="email"
             onChange={(e) => setEmail(e.target.value)}
-            helperColor={isError ? "error" : "default"}
-            status={isError ? "error" : "default"}
+            helperColor={isError || badEmail ? "error" : "default"}
+            helperText={
+              badEmail ? "Harap masukkan format email yang benar" : ""
+            }
+            status={isError || badEmail ? "error" : "default"}
             contentLeft={<MailIcon size={16} />}
             width="18rem"
             placeholder="Email"
@@ -86,13 +99,13 @@ export default function Login() {
           />
           <Spacer />
           <Input.Password
+            onChange={(e) => setPassword(e.target.value)}
+            helperColor={isError || !pwStrong ? "error" : "default"}
             helperText={
               !pwStrong
                 ? "At least 8 char with, num, symbol and one capital"
                 : ""
             }
-            onChange={(e) => setPassword(e.target.value)}
-            helperColor={isError || !pwStrong ? "error" : "default"}
             status={isError || !pwStrong ? "error" : "default"}
             contentLeft={<LockIcon size={16} />}
             width="18rem"
@@ -107,7 +120,7 @@ export default function Login() {
             justify="space-between"
           >
             <Checkbox size="small" label="Ingat saya" checked />
-            <Link color underline href="#">
+            <Link color underline href="#" onClick={() => setIsForgot(true)}>
               Lupa password?
             </Link>
           </Container>
@@ -115,7 +128,7 @@ export default function Login() {
           <Button
             shadow
             loading={isLoading}
-            color="gradient"
+            color="primary"
             onClick={(e) => handleFormSubmit(e)}
             style={{ width: "18rem" }}
           >
@@ -123,11 +136,17 @@ export default function Login() {
           </Button>
         </form>
         <Spacer y={2} />
-        <Link color="#333" href="#" onClick={() => setIsForgot(true)} underline>
+        <Link
+          color="#333"
+          underline
+          href="#"
+          onClick={() => setIsRegister(true)}
+        >
           Belum punya akun? Registrasi
         </Link>
       </Container>
       <ForgotPassword open={isForgot} close={setIsForgot} />
+      <RegisterUser open={isRegister} close={setIsRegister} />
     </div>
   );
 }

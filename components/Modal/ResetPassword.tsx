@@ -1,7 +1,8 @@
 import { Text, Button, Input, Modal, Spacer } from "@nextui-org/react";
 import { useState, useEffect } from "react";
-import { isPasswordStrong } from "../utils";
-import supabase from "../utils/supabase";
+import { isPasswordStrong } from "../../utils";
+import { toast } from "react-toastify";
+import supabase from "../../utils/supabase";
 
 interface IProps {
   open: boolean;
@@ -13,6 +14,7 @@ export default function ResetPassword({ open = false, token, close }: IProps) {
   const [password, setPassword] = useState("");
   const [repeated, setRepeated] = useState("");
   const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [isNotMatch, setIsNotMatch] = useState(false);
 
   useEffect(() => {
@@ -20,23 +22,24 @@ export default function ResetPassword({ open = false, token, close }: IProps) {
     if (password !== "") isStrong ? setIsError(false) : setIsError(true);
     else setIsError(false);
   }, [password]);
+  useEffect(() => {
+    password === repeated ? setIsNotMatch(false) : setIsNotMatch(true);
+  }, [password, repeated]);
 
   function handleSubmit() {
-    if (!isError) {
+    if (!isError || !isNotMatch) {
+      setIsLoading(true);
       supabase.auth.api
         .updateUser(token, { password })
         .then(({ data, error }) => {
-          if (error) console.log(error);
+          if (error) toast.error("Akses reset password invalid atau kadaluarsa");
           else {
-            console.log(data);
+            toast.success("Password berhasil diubah");
             handleClose();
           }
+          setIsLoading(false);
         });
     }
-  }
-  function isRepeatPass(val: string) {
-    setRepeated(val);
-    password === val ? setIsNotMatch(false) : setIsNotMatch(true);
   }
   function handleClose() {
     close(false);
@@ -65,7 +68,7 @@ export default function ResetPassword({ open = false, token, close }: IProps) {
           />
           {isError && <Spacer y={0} />}
           <Input.Password
-            onChange={(e) => isRepeatPass(e.target.value)}
+            onChange={(e) => setRepeated(e.target.value)}
             helperColor={isNotMatch ? "error" : "default"}
             helperText={isNotMatch ? "Repeated password didn't match" : ""}
             status={isNotMatch ? "error" : "default"}
@@ -77,11 +80,12 @@ export default function ResetPassword({ open = false, token, close }: IProps) {
         </Modal.Body>
         <Modal.Footer>
           <Button
-            auto
+            loading={isLoading}
             disabled={
               isError || isNotMatch || password === "" || repeated === ""
             }
             onClick={handleSubmit}
+            style={{ width: "100%" }}
           >
             Submit
           </Button>
