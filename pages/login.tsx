@@ -109,7 +109,7 @@ export default function Login() {
           </Button>
         </form>
         <Spacer y={2} />
-        <Link color="#333" underline onClick={() => onError()}>
+        <Link color="#333" href="#" underline onClick={() => onError()}>
           Belum punya akun? Registrasi
         </Link>
       </Container>
