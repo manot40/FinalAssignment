@@ -32,16 +32,17 @@ export default function ResetPassword({ open = false, token, close }: IProps) {
       supabase.auth.api
         .updateUser(token, { password })
         .then(({ data, error }) => {
-          if (error) toast.error("Akses reset password invalid atau kadaluarsa");
-          else {
+          if (error) {
+            toast.error("Akses reset password invalid atau kadaluarsa");
+          } else {
             toast.success("Password berhasil diubah");
-            handleClose();
           }
-          setIsLoading(false);
+          handleClose();
         });
     }
   }
   function handleClose() {
+    setIsLoading(false);
     close(false);
   }
 

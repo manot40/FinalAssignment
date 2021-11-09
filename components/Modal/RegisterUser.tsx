@@ -67,6 +67,17 @@ export default function RegisterUser({ open, close }: IProps) {
         });
     }
   }
+  function isReady() {
+    return (
+      !pwStrong ||
+      isNotMatch ||
+      badEmail ||
+      isLoading ||
+      fullname === "" ||
+      email === "" ||
+      password === ""
+    );
+  }
   function handleClose() {
     close(false);
   }
@@ -137,16 +148,8 @@ export default function RegisterUser({ open, close }: IProps) {
             />
             <Spacer y={!pwStrong ? 2.5 : 2} />
             <Button
-              shadow
-              disabled={
-                !pwStrong ||
-                isNotMatch ||
-                badEmail ||
-                isLoading ||
-                fullname === "" ||
-                email === "" ||
-                password === ""
-              }
+              shadow={!isReady()}
+              disabled={isReady()}
               loading={isLoading}
               onClick={() => handleSubmit()}
               style={{ width: "18rem", marginBottom: "1.33rem" }}
