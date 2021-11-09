@@ -20,7 +20,9 @@ export default function Home() {
 
   return (
     <>
-      <div className={styles.container}>{!isLoggedIn ? <Welcome /> : null}</div>
+      <div className={styles.container}>
+        <Welcome />
+      </div>
       {isRecovery && (
         <ResetPassword open={isRecovery} close={setIsRecovery} token={token} />
       )}
