@@ -12,7 +12,7 @@ export default function Welcome() {
       direction="column"
       justify="center"
       alignItems="center"
-      style={{ height: "100vh" }}
+      style={{ height: "100vh", marginTop: "-1.66rem" }}
     >
       <Text h1 className={styles.title}>
         Tugas Final&nbsp;
@@ -25,7 +25,7 @@ export default function Welcome() {
           React JS
         </Link>
       </Text>
-      <Spacer />
+      <Spacer y={1.6} />
       <Text h4>
         Kevin Sandiho | &nbsp;
         <Link href="#" color>
@@ -38,16 +38,15 @@ export default function Welcome() {
         display="flex"
         direction="column"
         alignItems="center"
-        justify="center"
-        gap={2}
+        justify="center"  
       >
         <Button
           icon={<PersonIcon size={16} />}
           onClick={() => router.push("/login")}
+          style={{marginBottom: ".66rem"}}
         >
           Login
         </Button>
-        <Spacer y={0.5} />
         <Button
           icon={<MarkGithubIcon size={16} />}
           color="#333"
