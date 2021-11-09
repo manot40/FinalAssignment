@@ -7,32 +7,47 @@ import {
   Avatar,
   Link,
 } from "@nextui-org/react";
-import { useState, useEffect } from "react";
-import styles from "../styles/Home.module.css";
 import { MailIcon, LockIcon } from "@primer/octicons-react";
+import ForgotPassword from "../components/ForgotPassword";
+import { useState, useEffect, FormEvent } from "react";
+import styles from "../styles/Home.module.css";
+import supabase from "../utils/supabase";
+import { isPasswordStrong } from "../utils";
 
 export default function Login() {
+  // Form Input
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  // Form State
   const [isError, setIsError] = useState(false);
   const [pwStrong, setPwStrong] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  // Modal State
+  const [isForgot, setIsForgot] = useState(false);
+  const [isRegister, setIsRegister] = useState(false);
 
   useEffect(() => {
-    console.log("placeholder");
     return () => {
       setIsLoading(false);
     };
   }, []);
-
-  function verifyPwInput(pw: string) {
-    setPassword(pw);
-    const criteria = new RegExp(
-      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
-    );
-    const isStrong = pw.match(criteria);
-    if (pw !== "") isStrong?.length ? setPwStrong(true) : setPwStrong(false);
+  useEffect(() => {
+    const isStrong = isPasswordStrong(password);
+    if (password !== "") isStrong ? setPwStrong(true) : setPwStrong(false);
     else setPwStrong(true);
+  }, [password]);
+
+  function handleFormSubmit(e: FormEvent) {
+    e.preventDefault();
+    supabase.auth
+      .signIn({ email, password })
+      .then(({ user, session, error }) => {
+        if (error) onError();
+        else {
+          console.log(user);
+          console.log(session);
+        }
+      });
   }
   function onError() {
     setIsError(true);
@@ -58,14 +73,13 @@ export default function Login() {
           bordered
         />
         <Spacer y={2} />
-        <form>
+        <form onSubmit={(e) => handleFormSubmit(e)}>
           <Input
+            type="email"
             onChange={(e) => setEmail(e.target.value)}
             helperColor={isError ? "error" : "default"}
             status={isError ? "error" : "default"}
             contentLeft={<MailIcon size={16} />}
-            type="email"
-            value={email}
             width="18rem"
             placeholder="Email"
             clearable
@@ -74,14 +88,13 @@ export default function Login() {
           <Input.Password
             helperText={
               !pwStrong
-                ? "Harus memiliki huruf, angka, simbol dan huruf besar"
+                ? "At least 8 char with, num, symbol and one capital"
                 : ""
             }
-            onChange={(e) => verifyPwInput(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             helperColor={isError || !pwStrong ? "error" : "default"}
             status={isError || !pwStrong ? "error" : "default"}
             contentLeft={<LockIcon size={16} />}
-            value={password}
             width="18rem"
             placeholder="Password"
             clearable
@@ -103,16 +116,18 @@ export default function Login() {
             shadow
             loading={isLoading}
             color="gradient"
+            onClick={(e) => handleFormSubmit(e)}
             style={{ width: "18rem" }}
           >
             Login
           </Button>
         </form>
         <Spacer y={2} />
-        <Link color="#333" href="#" underline onClick={() => onError()}>
+        <Link color="#333" href="#" onClick={() => setIsForgot(true)} underline>
           Belum punya akun? Registrasi
         </Link>
       </Container>
+      <ForgotPassword open={isForgot} close={setIsForgot} />
     </div>
   );
 }
