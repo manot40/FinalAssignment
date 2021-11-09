@@ -27,7 +27,7 @@ export default function Home() {
           color="gradient"
           bordered
         />
-        <Spacer y={2} />
+        <Spacer y={3} />
         <form>
           <Input
             type="email"
@@ -36,7 +36,7 @@ export default function Home() {
             labelPlaceholder="Email"
             clearable
           />
-          <Spacer />
+          <Spacer y={2} />
           <Input.Password
             width="18rem"
             size="large"
