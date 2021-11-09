@@ -60,7 +60,7 @@ export default function Home() {
             Login
           </Button>
         </form>
-        <Spacer y={1.5} />
+        <Spacer y={2} />
         <Link color="#333" underline href="#">
           Belum punya akun? Registrasi
         </Link>
