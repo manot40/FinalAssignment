@@ -90,7 +90,7 @@ export default function RegisterUser({ open, close }: IProps) {
               type="text"
               onChange={(e) => setFullname(e.target.value)}
               contentLeft={<PersonIcon size={16} />}
-              width="19rem"
+              width="18rem"
               placeholder="Nama Lengkap"
               clearable
             />
@@ -104,7 +104,7 @@ export default function RegisterUser({ open, close }: IProps) {
               }
               status={badEmail ? "error" : "default"}
               contentLeft={<MailIcon size={16} />}
-              width="19rem"
+              width="18rem"
               placeholder="Email"
               clearable
             />
@@ -119,7 +119,7 @@ export default function RegisterUser({ open, close }: IProps) {
               }
               status={!pwStrong ? "error" : "default"}
               contentLeft={<LockIcon size={16} />}
-              width="19rem"
+              width="18rem"
               placeholder="Password"
               clearable
             />
@@ -131,16 +131,25 @@ export default function RegisterUser({ open, close }: IProps) {
               helperText={isNotMatch ? "Repeated password didn't match" : ""}
               status={isNotMatch ? "error" : "default"}
               contentLeft={<HistoryIcon size={16} />}
-              width="19rem"
+              width="18rem"
               placeholder="Ulangi Password"
               clearable
             />
             <Spacer y={!pwStrong ? 2.5 : 2} />
             <Button
               shadow
+              disabled={
+                !pwStrong ||
+                isNotMatch ||
+                badEmail ||
+                isLoading ||
+                fullname === "" ||
+                email === "" ||
+                password === ""
+              }
               loading={isLoading}
               onClick={() => handleSubmit()}
-              style={{ width: "19rem", marginBottom: "1.33rem" }}
+              style={{ width: "18rem", marginBottom: "1.33rem" }}
             >
               Submit
             </Button>
