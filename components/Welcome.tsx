@@ -36,25 +36,24 @@ export default function Welcome() {
       <Container
         as="div"
         display="flex"
-        direction="row"
+        direction="column"
         alignItems="center"
         justify="center"
+        gap={2}
       >
         <Button
           icon={<PersonIcon size={16} />}
           onClick={() => router.push("/login")}
-          shadow
         >
           Login
         </Button>
-        <Spacer />
+        <Spacer y={0.5} />
         <Button
           icon={<MarkGithubIcon size={16} />}
           color="#333"
           onClick={() =>
             window.open("https://github.com/manot40/FinalAssignment", "_BLANK")
           }
-          shadow
         >
           Repo
         </Button>
