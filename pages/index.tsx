@@ -5,7 +5,6 @@ import ResetPassword from "../components/Modal/ResetPassword";
 import { hashDecode } from "../utils";
 
 export default function Home() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isRecovery, setIsRecovery] = useState(false);
   const [token, setToken] = useState("");
 
