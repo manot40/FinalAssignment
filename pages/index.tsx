@@ -18,30 +18,29 @@ export default function Home() {
         display="flex"
         direction="column"
         alignItems="center"
-        style={{ marginTop: "15vh" }}
+        style={{ marginTop: "12vh", marginBottom: "12vh" }}
       >
         <Avatar
           src="/default.jpg"
           alt="User Profile"
-          size={120}
+          size={128}
           color="gradient"
           bordered
         />
         <Spacer y={2} />
         <form>
           <Input
+            type="email"
             width="18rem"
             size="large"
-            label="Username"
-            placeholder="Masukan Username"
+            labelPlaceholder="Email"
             clearable
           />
           <Spacer />
           <Input.Password
             width="18rem"
             size="large"
-            label="Password"
-            placeholder="Masukan Password"
+            labelPlaceholder="Password"
             clearable
           />
           <Spacer />
@@ -60,13 +59,11 @@ export default function Home() {
           <Button shadow color="gradient" style={{ width: 18 + "rem" }}>
             Login
           </Button>
-          <Spacer y={1.5} />
-          <Container as="div" display="flex" direction="row" justify="center">
-            <Link color="#333" underline href="#">
-              Tidak memiliki akun? Registrasi
-            </Link>
-          </Container>
         </form>
+        <Spacer y={1.5} />
+        <Link color="#333" underline href="#">
+          Belum punya akun? Registrasi
+        </Link>
       </Container>
     </div>
   );
