@@ -3,7 +3,11 @@ import { useRouter } from "next/router";
 import styles from "../styles/Home.module.css";
 import { UserContext } from "../components/UserContext";
 import { Container, Button, Spacer, Link, Text } from "@nextui-org/react";
-import { PersonIcon, MarkGithubIcon, SignOutIcon } from "@primer/octicons-react";
+import {
+  PersonIcon,
+  MarkGithubIcon,
+  SignOutIcon,
+} from "@primer/octicons-react";
 import supabase from "../utils/supabase";
 import { toast } from "react-toastify";
 
@@ -12,8 +16,8 @@ export default function Welcome() {
   const router = useRouter();
 
   function handleLogout() {
-    supabase.auth.signOut().then(({error}) => {
-      if(error) toast.error("Gagal Logout");
+    supabase.auth.signOut().then(({ error }) => {
+      if (error) toast.error("Gagal Logout");
       else {
         setUser("");
         localStorage.removeItem("user");
@@ -35,11 +39,10 @@ export default function Welcome() {
         {user !== "" ? "Welcome " : "Tugas Final "}
         <Link
           href={user !== "" ? "#" : "https://reactjs.org"}
-          target="_blank"
+          target={user !== "" ? "" : "_blank"}
           rel="noopener noreferrer"
           style={{
-            background:
-              "linear-gradient(111.19deg,#aaffec -63.59%,#ff4ecd -20.3%,#0070f3 70.46%)",
+            background: "linear-gradient(111.19deg,#aaffec -63.59%,#ff4ecd -20.3%,#0070f3 70.46%)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
           }}
@@ -48,16 +51,7 @@ export default function Welcome() {
         </Link>
       </Text>
       <Spacer y={1.6} />
-      {user !== "" ? (
-        <Text h4>You are logged in</Text>
-      ) : (
-        <Text h4>
-          Kevin Sandiho | &nbsp;
-          <Link href="#" color>
-            2201860355
-          </Link>
-        </Text>
-      )}
+      <Text h4>You are{user !== "" ? " " : " not "}logged in</Text>
       <Spacer y={2} />
       <Container
         as="div"
