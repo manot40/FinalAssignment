@@ -44,7 +44,7 @@ export default function Welcome() {
             background: "linear-gradient(111.19deg,#aaffec -63.59%,#ff4ecd -20.3%,#0070f3 70.46%)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
-            display: "inline",
+            display: "inline-flex",
           }}
         >
           {user !== "" ? user : "React JS"}
