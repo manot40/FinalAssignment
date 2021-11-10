@@ -12,8 +12,10 @@ import {
   PersonIcon,
   HistoryIcon,
 } from "@primer/octicons-react";
-import { useState, useEffect, FormEvent } from "react";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
+import { useState, useEffect, useContext } from "react";
+import { UserContext } from "../../components/UserContext";
 import { isEmailValid, isPasswordStrong } from "../../utils";
 import supabase from "../../utils/supabase";
 
@@ -23,6 +25,8 @@ interface IProps {
 }
 
 export default function RegisterUser({ open, close }: IProps) {
+  const { setUser } = useContext(UserContext);
+  const router = useRouter();
   // Form Data
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -60,8 +64,10 @@ export default function RegisterUser({ open, close }: IProps) {
         .then(({ user, error }) => {
           if (error) setIsLoading(false), toast.error("Registrasi Gagal");
           else {
-            toast.success("Registrasi Berhasil");
+            setUser(user?.user_metadata.fullname as string);
             close(false);
+            toast.success("Registrasi Berhasil");
+            router.push("/");
           }
           setIsLoading(false);
         });
@@ -119,7 +125,7 @@ export default function RegisterUser({ open, close }: IProps) {
               placeholder="Email"
               clearable
             />
-            <Spacer />
+            <Spacer y={badEmail ? 1.5 : 1} />
             <Input.Password
               onChange={(e) => setPassword(e.target.value)}
               helperColor={!pwStrong ? "error" : "default"}

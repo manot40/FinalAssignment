@@ -7,19 +7,24 @@ import {
   Avatar,
   Link,
 } from "@nextui-org/react";
+import { useState, useEffect, useContext, FormEvent } from "react";
 import { MailIcon, LockIcon } from "@primer/octicons-react";
 import { isEmailValid, isPasswordStrong } from "../utils";
+import { UserContext } from "../components/UserContext";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 import ForgotPassword from "../components/Modal/ForgotPassword";
 import RegisterUser from "../components/Modal/RegisterUser";
-import { useState, useEffect, FormEvent } from "react";
 import styles from "../styles/Home.module.css";
 import supabase from "../utils/supabase";
-import { toast } from "react-toastify";
 
 export default function Login() {
+  const { user, setUser } = useContext(UserContext);
+  const router = useRouter();
   // Form Input
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isRemember, setIsRemember] = useState(true);
   // Form State
   const [isError, setIsError] = useState(false);
   const [badEmail, setBadEmail] = useState(false);
@@ -29,6 +34,9 @@ export default function Login() {
   const [isForgot, setIsForgot] = useState(false);
   const [isRegister, setIsRegister] = useState(false);
 
+  // Check If User LoggedIn
+  if (user !== "") router.push("/");
+  
   // Password Validation
   useEffect(() => {
     const isStrong = isPasswordStrong(password);
@@ -54,8 +62,11 @@ export default function Login() {
           toast.error("Login Gagal. Username/Password Salah");
           onError();
         } else {
+          const userName = user?.user_metadata.fullname as string;
+          setUser(userName);
+          if (window && isRemember) localStorage.setItem("user", userName);
           toast.success("Login Successful");
-          console.log(user);
+          router.push("/");
         }
         setIsLoading(false);
       });
@@ -121,7 +132,12 @@ export default function Login() {
             direction="row"
             justify="space-between"
           >
-            <Checkbox size="small" label="Ingat saya" checked />
+            <Checkbox
+              size="small"
+              label="Ingat saya"
+              checked={isRemember}
+              onChange={(e) => setIsRemember(e.target.checked)}
+            />
             <Link color underline href="#" onClick={() => setIsForgot(true)}>
               Lupa password?
             </Link>

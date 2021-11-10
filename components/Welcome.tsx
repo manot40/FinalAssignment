@@ -1,10 +1,27 @@
+import { useContext } from "react";
 import { useRouter } from "next/router";
 import styles from "../styles/Home.module.css";
-import { PersonIcon, MarkGithubIcon } from "@primer/octicons-react";
+import { UserContext } from "../components/UserContext";
 import { Container, Button, Spacer, Link, Text } from "@nextui-org/react";
+import { PersonIcon, MarkGithubIcon, SignOutIcon } from "@primer/octicons-react";
+import supabase from "../utils/supabase";
+import { toast } from "react-toastify";
 
 export default function Welcome() {
+  const { user, setUser } = useContext(UserContext);
   const router = useRouter();
+
+  function handleLogout() {
+    supabase.auth.signOut().then(({error}) => {
+      if(error) toast.error("Gagal Logout");
+      else {
+        setUser("");
+        localStorage.removeItem("user");
+        toast.success("Berhasil Logout");
+      }
+    });
+  }
+
   return (
     <Container
       as="main"
@@ -15,28 +32,33 @@ export default function Welcome() {
       style={{ height: "100vh", marginTop: "-1.66rem" }}
     >
       <Text h1 className={styles.title}>
-        Tugas Final&nbsp;
+        {user !== "" ? "Welcome " : "Tugas Final "}
         <Link
-          href="https://reactjs.org"
+          href={user !== "" ? "#" : "https://reactjs.org"}
           target="_blank"
           rel="noopener noreferrer"
           style={{
-            background: "linear-gradient(111.19deg,#aaffec -63.59%,#ff4ecd -20.3%,#0070f3 70.46%)",
+            background:
+              "linear-gradient(111.19deg,#aaffec -63.59%,#ff4ecd -20.3%,#0070f3 70.46%)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
           }}
         >
-          React JS
+          {user !== "" ? user : "React JS"}
         </Link>
       </Text>
       <Spacer y={1.6} />
-      <Text h4>
-        Kevin Sandiho | &nbsp;
-        <Link href="#" color>
-          2201860355
-        </Link>
-      </Text>
-      <Spacer y={3} />
+      {user !== "" ? (
+        <Text h4>You are logged in</Text>
+      ) : (
+        <Text h4>
+          Kevin Sandiho | &nbsp;
+          <Link href="#" color>
+            2201860355
+          </Link>
+        </Text>
+      )}
+      <Spacer y={2} />
       <Container
         as="div"
         display="flex"
@@ -44,20 +66,30 @@ export default function Welcome() {
         alignItems="center"
         justify="center"
       >
-        <Button
-          icon={<PersonIcon size={16} />}
-          color="gradient"
-          onClick={() => router.push("/login")}
-          style={{ marginBottom: ".66rem" }}
-        >
-          Login
-        </Button>
+        {user === "" ? (
+          <Button
+            icon={<PersonIcon size={16} />}
+            color="gradient"
+            onClick={() => router.push("/login")}
+          >
+            Login
+          </Button>
+        ) : (
+          <Button
+            icon={<SignOutIcon size={16} />}
+            color="error"
+            onClick={() => handleLogout()}
+          >
+            Logout
+          </Button>
+        )}
         <Button
           icon={<MarkGithubIcon size={16} />}
           color="#333"
           onClick={() =>
             window.open("https://github.com/manot40/FinalAssignment", "_BLANK")
           }
+          style={{ marginTop: ".66rem" }}
         >
           Repo
         </Button>

@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import { CssBaseline } from "@nextui-org/react";
 import "../styles/globals.css";
 import "react-toastify/dist/ReactToastify.css";
+import UserCtxProvider from "../components/UserContext";
 import { ToastContainer } from "react-toastify";
 
 function App({ Component, pageProps }: AppProps) {
@@ -13,7 +14,9 @@ function App({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <CssBaseline />
-      <Component {...pageProps} />
+      <UserCtxProvider>
+        <Component {...pageProps} />
+      </UserCtxProvider>
       <ToastContainer autoClose={2000} position="top-center" closeOnClick />
     </>
   );
