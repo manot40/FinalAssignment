@@ -37,22 +37,22 @@ export default function Welcome() {
     >
       <Text h1 className={styles.title}>
         {user !== "" ? "Welcome " : "Tugas Final "}
-        <Link
-          href={user !== "" ? "#" : "https://reactjs.org"}
-          target={user !== "" ? "" : "_blank"}
-          rel="noopener noreferrer"
+        <Text
+          h1
+          className={styles.title}
           style={{
             background: "linear-gradient(111.19deg,#aaffec -63.59%,#ff4ecd -20.3%,#0070f3 70.46%)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
+            display: "inline",
           }}
         >
           {user !== "" ? user : "React JS"}
-        </Link>
+        </Text>
       </Text>
-      <Spacer y={1.6} />
-      <Text h4>You are{user !== "" ? " " : " not "}logged in</Text>
       <Spacer y={2} />
+      <Text h4>You are{user !== "" ? " " : " not "}logged in</Text>
+      <Spacer y={2.4} />
       <Container
         as="div"
         display="flex"
