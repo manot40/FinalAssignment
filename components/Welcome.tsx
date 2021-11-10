@@ -4,7 +4,7 @@ import styles from "../styles/Home.module.css";
 import { UserContext } from "../components/UserContext";
 import { Container, Button, Spacer, Link, Text } from "@nextui-org/react";
 import {
-  PersonIcon,
+  SignInIcon,
   MarkGithubIcon,
   SignOutIcon,
 } from "@primer/octicons-react";
@@ -62,7 +62,7 @@ export default function Welcome() {
       >
         {user === "" ? (
           <Button
-            icon={<PersonIcon size={16} />}
+            icon={<SignInIcon size={16} />}
             color="gradient"
             onClick={() => router.push("/login")}
           >
