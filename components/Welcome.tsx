@@ -1,15 +1,15 @@
-import { useContext } from "react";
-import { useRouter } from "next/router";
-import styles from "../styles/Home.module.css";
-import { UserContext } from "../components/UserContext";
-import { Container, Button, Spacer, Link, Text } from "@nextui-org/react";
 import {
   SignInIcon,
   MarkGithubIcon,
   SignOutIcon,
 } from "@primer/octicons-react";
-import supabase from "../utils/supabase";
+import { useContext } from "react";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
+import { UserContext } from "../components/UserContext";
+import { Container, Button, Spacer, Link, Text } from "@nextui-org/react";
+import supabase from "../utils/supabase";
+import styles from "../styles/Home.module.css";
 
 export default function Welcome() {
   const { user, setUser } = useContext(UserContext);

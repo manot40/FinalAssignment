@@ -32,9 +32,9 @@ export default function RegisterUser({ open, close }: IProps) {
   const [password, setPassword] = useState("");
   const [fullname, setFullname] = useState("");
   // Password Validation
+  const [passWeak, setPassWeak] = useState(false);
   const [repeated, setRepeated] = useState("");
   const [isNotMatch, setIsNotMatch] = useState(false);
-  const [pwStrong, setPwStrong] = useState(true);
   // Form State
   const [badEmail, setBadEmail] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -42,8 +42,8 @@ export default function RegisterUser({ open, close }: IProps) {
   // Password Validation
   useEffect(() => {
     const isStrong = isPasswordStrong(password);
-    if (password !== "") isStrong ? setPwStrong(true) : setPwStrong(false);
-    else setPwStrong(true);
+    if (password !== "") isStrong ? setPassWeak(false) : setPassWeak(true);
+    else setPassWeak(false);
   }, [password]);
   // Email Validation
   useEffect(() => {
@@ -51,14 +51,14 @@ export default function RegisterUser({ open, close }: IProps) {
     if (email !== "") !isMailValid ? setBadEmail(true) : setBadEmail(false);
     else setBadEmail(false);
   }, [email]);
-  // Password Match
+  // Is Repeated Password Match
   useEffect(() => {
     password === repeated ? setIsNotMatch(false) : setIsNotMatch(true);
   }, [password, repeated]);
 
   function handleSubmit() {
     setIsLoading(true);
-    if (!badEmail && !isNotMatch && pwStrong) {
+    if (!badEmail && !isNotMatch && !passWeak) {
       supabase.auth
         .signUp({ email, password }, { data: { fullname } })
         .then(({ user, error }) => {
@@ -75,7 +75,7 @@ export default function RegisterUser({ open, close }: IProps) {
   }
   function isReady() {
     return (
-      !pwStrong ||
+      passWeak ||
       isNotMatch ||
       badEmail ||
       isLoading ||
@@ -128,19 +128,19 @@ export default function RegisterUser({ open, close }: IProps) {
             <Spacer y={badEmail ? 1.5 : 1} />
             <Input.Password
               onChange={(e) => setPassword(e.target.value)}
-              helperColor={!pwStrong ? "error" : "default"}
+              helperColor={passWeak ? "error" : "default"}
               helperText={
-                !pwStrong
+                passWeak
                   ? "At least 8 char with, num, symbol and one capital"
                   : ""
               }
-              status={!pwStrong ? "error" : "default"}
+              status={passWeak ? "error" : "default"}
               contentLeft={<LockIcon size={16} />}
               width="18rem"
               placeholder="Password"
               clearable
             />
-            <Spacer y={!pwStrong ? 1.5 : 1} />
+            <Spacer y={passWeak ? 1.5 : 1} />
             <Input
               type="password"
               onChange={(e) => setRepeated(e.target.value)}
@@ -152,7 +152,7 @@ export default function RegisterUser({ open, close }: IProps) {
               placeholder="Ulangi Password"
               clearable
             />
-            <Spacer y={!pwStrong ? 2.5 : 2} />
+            <Spacer y={passWeak ? 2.5 : 2} />
             <Button
               shadow={!isReady()}
               disabled={isReady()}

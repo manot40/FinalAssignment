@@ -2,8 +2,8 @@ import { Text, Button, Input, Modal, Spacer } from "@nextui-org/react";
 import { MailIcon } from "@primer/octicons-react";
 import { useState, useEffect } from "react";
 import { isEmailValid } from "../../utils";
-import supabase from "../../utils/supabase";
 import { toast } from "react-toastify";
+import supabase from "../../utils/supabase";
 
 interface IProps {
   open: boolean;
@@ -24,11 +24,9 @@ export default function ForgotPassword({ open = false, close }: IProps) {
   function handleSubmit() {
     setIsLoading(true);
     if (!isError) {
-      supabase.auth.api.resetPasswordForEmail(email).then(({ data, error }) => {
-        if (error) {
-          setIsLoading(false);
-          toast.error("Email tidak tertaut di akun manapun");
-        } else {
+      supabase.auth.api.resetPasswordForEmail(email).then(({ error }) => {
+        if (error) toast.error("Email tidak tertaut di akun manapun");
+        else {
           toast.success("Email Reset Password Terkirim");
           handleClose();
         }

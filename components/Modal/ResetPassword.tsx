@@ -1,6 +1,6 @@
 import { Text, Button, Input, Modal, Spacer } from "@nextui-org/react";
-import { useState, useEffect } from "react";
 import { isPasswordStrong } from "../../utils";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import supabase from "../../utils/supabase";
 
@@ -31,10 +31,9 @@ export default function ResetPassword({ open = false, token, close }: IProps) {
       setIsLoading(true);
       supabase.auth.api
         .updateUser(token, { password })
-        .then(({ data, error }) => {
-          if (error) {
-            toast.error("Akses reset password invalid atau kadaluarsa");
-          } else {
+        .then(({ error }) => {
+          if (error) toast.error("Akses reset password invalid atau kadaluarsa");
+          else {
             toast.success("Password berhasil diubah");
           }
           handleClose();

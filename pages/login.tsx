@@ -28,7 +28,6 @@ export default function Login() {
   // Form State
   const [isError, setIsError] = useState(false);
   const [badEmail, setBadEmail] = useState(false);
-  const [pwStrong, setPwStrong] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   // Modal State
   const [isForgot, setIsForgot] = useState(false);
@@ -36,13 +35,7 @@ export default function Login() {
 
   // Check If User LoggedIn
   if (user !== "") router.push("/");
-  
-  // Password Validation
-  useEffect(() => {
-    const isStrong = isPasswordStrong(password);
-    if (password !== "") isStrong ? setPwStrong(true) : setPwStrong(false);
-    else setPwStrong(true);
-  }, [password]);
+
   // Email Validation
   useEffect(() => {
     const isMailValid = isEmailValid(email);
@@ -53,7 +46,7 @@ export default function Login() {
   function handleFormSubmit(e: FormEvent) {
     e.preventDefault();
     setIsLoading(true);
-    if (password === "" || email === "" || !pwStrong || isError || badEmail) {
+    if (password === "" || email === "" || isError || badEmail) {
       toast.error("Periksa kembali email/password anda"), setIsLoading(false);
       onError();
     } else {
@@ -101,9 +94,7 @@ export default function Login() {
             type="email"
             onChange={(e) => setEmail(e.target.value)}
             helperColor={isError || badEmail ? "error" : "default"}
-            helperText={
-              badEmail ? "Harap masukkan format email yang benar" : ""
-            }
+            helperText={badEmail ? "Harap masukkan format email yang benar" : ""}
             status={isError || badEmail ? "error" : "default"}
             contentLeft={<MailIcon size={16} />}
             width="18rem"
@@ -113,19 +104,13 @@ export default function Login() {
           <Spacer />
           <Input.Password
             onChange={(e) => setPassword(e.target.value)}
-            helperColor={isError || !pwStrong ? "error" : "default"}
-            helperText={
-              !pwStrong
-                ? "At least 8 char with, num, symbol and one capital"
-                : ""
-            }
-            status={isError || !pwStrong ? "error" : "default"}
+            status={isError ? "error" : "default"}
             contentLeft={<LockIcon size={16} />}
             width="18rem"
             placeholder="Password"
             clearable
           />
-          <Spacer y={!pwStrong ? 1.5 : 1} />
+          <Spacer />
           <Container
             as="div"
             display="flex"
