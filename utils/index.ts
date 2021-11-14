@@ -24,7 +24,7 @@ export function isEmailValid(email: string) {
 
 export function isPasswordStrong(password: string) {
   const isStrong = password.match(
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})$/
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})/
   );
   return typeof isStrong?.length !== "undefined";
 }
